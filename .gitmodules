@@ -1,3 +1,3 @@
-[submodule "Magnus/vendor"]
+[submodule "Magnus/vendor/spdlog"]
 	path = Magnus/vendor/spdlog
 	url = https://github.com/gabime/spdlog
