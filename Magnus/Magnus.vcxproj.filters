@@ -27,9 +27,15 @@
     <ClInclude Include="src\Magnus\EntryPoint.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\Magnus\Log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Magnus\Application.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Magnus\Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
