@@ -18,6 +18,9 @@ project "Magnus"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "mgpch.h"
+	pchsource "Magnus/src/mgpch.cpp"
+	
 	files
 	{
 		"%{prj.name}/src/**.h",

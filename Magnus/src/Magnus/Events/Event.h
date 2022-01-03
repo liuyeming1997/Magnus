@@ -1,8 +1,4 @@
 #pragma once
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <functional>
 
 #include "Magnus/Core.h"
 namespace Magnus {

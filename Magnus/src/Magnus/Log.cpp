@@ -1,5 +1,7 @@
+#include "mgpch.h"
 #include "Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+
 namespace Magnus {
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;

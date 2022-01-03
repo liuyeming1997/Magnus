@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-
 #include "Core.h"
 #include "spdlog/spdlog.h"
 namespace Magnus {

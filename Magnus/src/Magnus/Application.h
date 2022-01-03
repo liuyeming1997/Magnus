@@ -1,6 +1,6 @@
 #pragma once
 #include "Core.h"
-#include<cstdio>
+
 
 namespace Magnus {
 	class MAGNUS_API Application

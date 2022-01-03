@@ -1,7 +1,9 @@
+#include "mgpch.h"
 #include "Application.h"
 #include "Magnus/Events/KeyEvent.h"
 #include "Magnus/Events/ApplicationEvent.h"
 #include "Log.h"
+
 namespace Magnus {
 	Application::Application() {
 
