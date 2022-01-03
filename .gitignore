@@ -1,7 +1,11 @@
 #Dir
-.vs/
-bin/
+
+**/bin/
 bin-int/
 
 #file
-*.user
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
