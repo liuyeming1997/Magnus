@@ -9,7 +9,7 @@ public:
 
 	}
 
-private:
+private: 
 
 };
 Magnus::Application* Magnus::CreateApplication() {
