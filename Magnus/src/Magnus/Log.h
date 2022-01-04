@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 namespace Magnus {
 	class MAGNUS_API Log
 	{

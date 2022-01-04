@@ -21,6 +21,7 @@ namespace Magnus {
 
 		void Init(const WindowAttribute& att);
 		void ShutDown();
+		
 	private:
 		GLFWwindow* m_Window;
 		//需要发送给glfw的数据
