@@ -5,8 +5,8 @@
 extern Magnus::Application* Magnus::CreateApplication();
 int main(int argc, char** argv) {
 	Magnus::Log::Init();
-	MG_CLIENT_ERROR("error");
-	MG_CLIENT_WARN("warn");
+	MG_ERROR("error");
+	MG_WARN("warn");
 	MG_CORE_INFO("info");
 	int a = 5;
 	int b = 10;

@@ -22,8 +22,8 @@ namespace Magnus {
 #define MG_CORE_FATAL(...) ::Magnus::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
 //Client log macros
-#define MG_CLIENT_ERROR(...) ::Magnus::Log::GetClientLogger()->error(__VA_ARGS__)
-#define MG_CLIENT_INFO(...) ::Magnus::Log::GetClientLogger()->info(__VA_ARGS__)
-#define MG_CLIENT_WARN(...) ::Magnus::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define MG_CLIENT_TRACE(...) ::Magnus::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define MG_CLIENT_FATAL(...) ::Magnus::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define MG_ERROR(...) ::Magnus::Log::GetClientLogger()->error(__VA_ARGS__)
+#define MG_INFO(...) ::Magnus::Log::GetClientLogger()->info(__VA_ARGS__)
+#define MG_WARN(...) ::Magnus::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define MG_TRACE(...) ::Magnus::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define MG_FATAL(...) ::Magnus::Log::GetClientLogger()->fatal(__VA_ARGS__)

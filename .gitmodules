@@ -1,3 +1,6 @@
 [submodule "Magnus/vendor/spdlog"]
 	path = Magnus/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Magnus/vendor/GLFW"]
+	path = Magnus/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
