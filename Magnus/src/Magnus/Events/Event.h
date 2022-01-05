@@ -23,8 +23,12 @@ namespace Magnus {
 	};
 	class MAGNUS_API Event
 	{
-		friend class EventDispatcher;
+		
 	public:
+		bool Handled = false;
+		Event() {
+
+		};
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
@@ -35,7 +39,7 @@ namespace Magnus {
 			return GetCategoryFlags() & category;
 		}
 	protected:
-		bool m_Handled = false;
+		
 	};
 
 	//为了省事，同时为了能直接用#x生成传入参数的字符串
@@ -68,7 +72,7 @@ namespace Magnus {
 			//判断这个event的类型是不是和传进来函数指针包含的类型一致
 			if (m_Event.GetEventType() == T::GetStaticEventType())
 			{
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;

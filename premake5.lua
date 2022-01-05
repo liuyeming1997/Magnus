@@ -11,8 +11,10 @@ workspace "Magnus"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Magnus/vendor/GLFW/include"
+IncludeDir["Glad"] = "Magnus/vendor/Glad/include"
 
 include "Magnus/vendor/GLFW"
+include "Magnus/vendor/Glad"
 project "Magnus"
 	location "Magnus"
 	kind "SharedLib"
@@ -34,12 +36,14 @@ project "Magnus"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links 
 	{ 
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -51,7 +55,8 @@ project "Magnus"
 		defines
 		{
 			"MG_PLATFORM_WINDOWS",
-			"MG_BUILD_DLL"
+			"MG_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands
@@ -61,14 +66,17 @@ project "Magnus"
 
 	filter "configurations:Debug"
 		defines "MG_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MG_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MG_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -108,12 +116,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "MG_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MG_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MG_DIST"
+		buildoptions "/MD"
 		optimize "On"

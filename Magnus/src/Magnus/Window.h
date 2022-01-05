@@ -17,7 +17,7 @@ namespace Magnus {
 	class MAGNUS_API WindowBasic
 	{
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;
+		using  EventCallbackFn = std::function<void(Event&)>;
 		virtual ~WindowBasic() {}
 
 		virtual void OnUpdate() = 0;
