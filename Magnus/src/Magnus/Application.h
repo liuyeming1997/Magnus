@@ -17,9 +17,13 @@ namespace Magnus {
 		void OnEvent(Event& event);
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+		inline WindowBasic& GetWindow() { return *m_Window; }
+
+		inline static Application& Get() { return *s_Instance; }
 	private:
 		std::unique_ptr<WindowBasic> m_Window;
 		bool m_Running = true;
+		static Application* s_Instance;
 
 		bool OnWindowClose(WindowCloseEvent& e);
 		LayerStack m_LayerStack;

@@ -23,6 +23,7 @@ class Sandbox : public Magnus::Application
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Magnus::ImGuiLayer());
 	}
 	~Sandbox() {
 

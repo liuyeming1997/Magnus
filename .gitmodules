@@ -4,3 +4,6 @@
 [submodule "Magnus/vendor/GLFW"]
 	path = Magnus/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "Magnus/vendor/imgui"]
+	path = Magnus/vendor/imgui
+	url = https://github.com/TheCherno/imgui
