@@ -1,6 +1,6 @@
 workspace "Magnus"
 	architecture "x64"
-
+	startproject "Sandbox"
 	configurations
 	{
 		"Debug",
@@ -14,14 +14,17 @@ IncludeDir["GLFW"] = "Magnus/vendor/GLFW/include"
 IncludeDir["Glad"] = "Magnus/vendor/Glad/include"
 IncludeDir["ImGui"] = "Magnus/vendor/imgui"
 
-include "Magnus/vendor/GLFW"
-include "Magnus/vendor/Glad"
-include "Magnus/vendor/imgui"
-startproject "Sandbox"
+group "Dependencies"
+	include "Magnus/vendor/GLFW"
+	include "Magnus/vendor/Glad"
+	include "Magnus/vendor/imgui"
+group ""
+
 project "Magnus"
 	location "Magnus"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -54,7 +57,6 @@ project "Magnus"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -71,23 +73,24 @@ project "Magnus"
 
 	filter "configurations:Debug"
 		defines "MG_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MG_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MG_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -111,7 +114,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -121,15 +123,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "MG_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "MG_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "MG_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
