@@ -6,13 +6,28 @@ namespace Magnus {
 	{
 	public:
 		DEFINE_EVEN_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
-		
+			inline int GetKeyCode() const { return m_KeyCode; }
 	protected:
 		KeyEvent(int _keyCode) :m_KeyCode(_keyCode) {
 
 		}
 		int m_KeyCode;
 
+	};
+	class  KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode)
+			: KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
+
+		DEFINE_EVENT_TYPE(KeyTyped)
 	};
 
 	class KeyPressEvent : public KeyEvent

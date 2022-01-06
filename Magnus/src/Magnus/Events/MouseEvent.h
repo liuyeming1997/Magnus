@@ -5,7 +5,7 @@ namespace Magnus {
 	{
 	public:
 		
-
+		inline int GetMouseButton() const { return m_Button; }
 		DEFINE_EVEN_CATEGORY(EventCategoryMouseButton | EventCategoryInput)
 
 	protected:
