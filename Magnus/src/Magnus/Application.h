@@ -6,6 +6,8 @@
 #include "Magnus/Events/MouseEvent.h"
 #include "LayerStack.h"
 
+#include "Magnus/ImGui/ImGuiLayer.h"
+
 namespace Magnus {
 	class MAGNUS_API Application
 	{
@@ -22,6 +24,7 @@ namespace Magnus {
 		inline static Application& GetInstance() { return *s_Instance; }
 	private:
 		std::unique_ptr<WindowBasic> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		static Application* s_Instance;
 

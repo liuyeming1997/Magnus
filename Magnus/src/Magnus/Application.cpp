@@ -11,6 +11,9 @@ namespace Magnus {
 
 		m_Window = std::unique_ptr<WindowBasic>(WindowBasic::Create());
 		m_Window->SetEventCallBack(BIND_EVENT_FN(OnEvent));
+
+		m_ImGuiLayer =new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 	// appÖ´ÐÐÊÂ¼þ
 	void  Application::OnEvent(Event& event) {
@@ -46,9 +49,17 @@ namespace Magnus {
 	void Application::Run() {
 		while (m_Running) {
 			glClearColor(1, 0, 1, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT); 
+			//submit date
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+			
+			//rendor
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 		

@@ -109,6 +109,7 @@ project "Sandbox"
 	{
 		"Magnus/vendor/spdlog/include",
 		"Magnus/src",
+		"Magnus/vendor",
 		"%{IncludeDir.glm}"
 	}
 
