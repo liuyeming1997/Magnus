@@ -1,5 +1,6 @@
 #pragma once
 #ifdef MG_PLATFORM_WINDOWS
+#if MG_DYNAMIC_LINK
 	#ifdef MG_BUILD_DLL
 		#define MAGNUS_API __declspec(dllexport)
 		//#define IMGUI_API __declspec(dllexport)
@@ -7,6 +8,9 @@
 		#define MAGNUS_API __declspec(dllimport)
 		//#define IMGUI_API __declspec(dllimport)
 	#endif // MG_BUILD_DLL
+#else
+	#define MAGNUS_API
+#endif
 #else
 	#error Magnus only supports Windows!
 
