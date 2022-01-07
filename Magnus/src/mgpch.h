@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include "Magnus/Log.h"
+#include "Magnus/KeyCode.h"
+#include "Magnus/MouseButtonCode.h"
 #ifdef MG_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

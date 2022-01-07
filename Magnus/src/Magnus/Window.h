@@ -29,6 +29,8 @@ namespace Magnus {
 		virtual void SetVSync(bool enbale) = 0;
 		virtual bool IsVSync() const = 0;
 
+		virtual void* GetNativeWindow() const = 0;
+
 		static WindowBasic* Create(const WindowAttribute& att = WindowAttribute());
 
 

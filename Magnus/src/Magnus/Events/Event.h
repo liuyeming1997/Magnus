@@ -69,10 +69,14 @@ namespace Magnus {
 		template<typename T>
 		bool Dispatch(EventFn<T> func)
 		{
+			//  my version, when this type is defined, will not executed 
+			if (IsHanded)
+				return false;
 			//判断这个event的类型是不是和传进来函数指针包含的类型一致
 			if (m_Event.GetEventType() == T::GetStaticEventType())
 			{
 				m_Event.Handled = func(*(T*)&m_Event);
+				IsHanded = true;
 				return true;
 			}
 			return false;
@@ -80,6 +84,7 @@ namespace Magnus {
 
 	private:
 		Event& m_Event;
+		bool IsHanded = false;
 
 	};
 

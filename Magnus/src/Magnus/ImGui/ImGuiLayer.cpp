@@ -28,28 +28,28 @@ namespace Magnus {
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
-		// TEMPORARY: should eventually use Hazel key codes
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+		// TEMPORARY: should eventually use Magnus key codes
+		io.KeyMap[ImGuiKey_Tab] = MG_KEY_TAB;
+		io.KeyMap[ImGuiKey_LeftArrow] = MG_KEY_LEFT;
+		io.KeyMap[ImGuiKey_RightArrow] = MG_KEY_RIGHT;
+		io.KeyMap[ImGuiKey_UpArrow] = MG_KEY_UP;
+		io.KeyMap[ImGuiKey_DownArrow] = MG_KEY_DOWN;
+		io.KeyMap[ImGuiKey_PageUp] = MG_KEY_PAGE_UP;
+		io.KeyMap[ImGuiKey_PageDown] = MG_KEY_PAGE_DOWN;
+		io.KeyMap[ImGuiKey_Home] = MG_KEY_HOME;
+		io.KeyMap[ImGuiKey_End] = MG_KEY_END;
+		io.KeyMap[ImGuiKey_Insert] = MG_KEY_INSERT;
+		io.KeyMap[ImGuiKey_Delete] = MG_KEY_DELETE;
+		io.KeyMap[ImGuiKey_Backspace] = MG_KEY_BACKSPACE;
+		io.KeyMap[ImGuiKey_Space] = MG_KEY_SPACE;
+		io.KeyMap[ImGuiKey_Enter] = MG_KEY_ENTER;
+		io.KeyMap[ImGuiKey_Escape] = MG_KEY_ESCAPE;
+		io.KeyMap[ImGuiKey_A] = MG_KEY_A;
+		io.KeyMap[ImGuiKey_C] = MG_KEY_C;
+		io.KeyMap[ImGuiKey_V] = MG_KEY_V;
+		io.KeyMap[ImGuiKey_X] = MG_KEY_X;
+		io.KeyMap[ImGuiKey_Y] = MG_KEY_Y;
+		io.KeyMap[ImGuiKey_Z] = MG_KEY_Z;
 
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
@@ -62,13 +62,13 @@ namespace Magnus {
 	void ImGuiLayer::OnUpdate()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::Get();
+		Application& app = Application::GetInstance();
 		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
 		float time = (float)glfwGetTime();
 		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
 		m_Time = time;
-
+		//MG_INFO("time is: {0}", m_Time);
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
@@ -122,10 +122,10 @@ namespace Magnus {
 	bool ImGuiLayer::OnKeyPressedEvent(KeyPressEvent& e) {
 		ImGuiIO& io = ImGui::GetIO();
 		io.KeysDown[e.GetKeyCode()] = true;
-		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+		io.KeyCtrl = io.KeysDown[MG_KEY_LEFT_CONTROL] || io.KeysDown[MG_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[MG_KEY_LEFT_SHIFT] || io.KeysDown[MG_KEY_RIGHT_SHIFT];
+		io.KeyAlt = io.KeysDown[MG_KEY_LEFT_ALT] || io.KeysDown[MG_KEY_RIGHT_ALT];
+		io.KeySuper = io.KeysDown[MG_KEY_LEFT_SUPER] || io.KeysDown[MG_KEY_RIGHT_SUPER];
 		return false;
 	}
 	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleaseEvent& e) {

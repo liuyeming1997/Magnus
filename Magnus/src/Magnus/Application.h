@@ -19,7 +19,7 @@ namespace Magnus {
 		void PushOverlay(Layer* layer);
 		inline WindowBasic& GetWindow() { return *m_Window; }
 
-		inline static Application& Get() { return *s_Instance; }
+		inline static Application& GetInstance() { return *s_Instance; }
 	private:
 		std::unique_ptr<WindowBasic> m_Window;
 		bool m_Running = true;

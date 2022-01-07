@@ -21,7 +21,7 @@ namespace Magnus {
 		{
 			//再判断哪个层执行事件（maybe)
 
-			(*--it)->OnEvent (event);
+			(*--it)->OnEvent(event);
 			if (event.Handled)
 				break;
 		}

@@ -13,7 +13,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Magnus/vendor/GLFW/include"
 IncludeDir["Glad"] = "Magnus/vendor/Glad/include"
 IncludeDir["ImGui"] = "Magnus/vendor/imgui"
-
+IncludeDir["glm"] = "Magnus/vendor/glm"
 group "Dependencies"
 	include "Magnus/vendor/GLFW"
 	include "Magnus/vendor/Glad"
@@ -35,7 +35,9 @@ project "Magnus"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
@@ -44,7 +46,9 @@ project "Magnus"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
+
 	}
 
 	links 
@@ -68,7 +72,7 @@ project "Magnus"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
@@ -104,7 +108,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Magnus/vendor/spdlog/include",
-		"Magnus/src"
+		"Magnus/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links

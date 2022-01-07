@@ -17,6 +17,10 @@ namespace Magnus {
 		inline void SetEventCallBack(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		virtual void* GetNativeWindow() const override {
+			return (void*)m_Window; 
+		};
+		
 
 
 		void Init(const WindowAttribute& att);
