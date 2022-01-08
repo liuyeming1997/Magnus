@@ -2,6 +2,7 @@
 #include "OpenGLBuffer.h"
 #include "glad/glad.h"
 namespace Magnus {
+    //////////////VerTex////////////////////////////
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* data, unsigned int size) {
         glCreateBuffers(1, &m_RendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -20,7 +21,7 @@ namespace Magnus {
 
 
 
-    /////////////////////////////
+    /////////////Index////////////////////////////
 
 
 

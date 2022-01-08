@@ -4,16 +4,17 @@ namespace Magnus {
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
-		OpenGLVertexBuffer() {
-			m_RendererID = 0;
-		};
+		
 		OpenGLVertexBuffer(float* data, unsigned int size);
 		virtual ~OpenGLVertexBuffer();
 
 		void Bind() const override;
 		void UnBind() const override;
+		const BufferLayout& GetLayout() const override { return m_Layout; };
+		void SetLayout(const BufferLayout& layout) override { m_Layout = layout; };
 	private:
 		unsigned int m_RendererID;
+		BufferLayout m_Layout;
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer
@@ -22,16 +23,12 @@ namespace Magnus {
 		unsigned int m_RendererID;
 		unsigned int m_Count;
 	public:
-		OpenGLIndexBuffer() {
-			m_RendererID = 0;
-			m_Count = 0;
-		};
 		OpenGLIndexBuffer(const unsigned int* data, unsigned int count);
 		virtual ~OpenGLIndexBuffer();
 
 		void Bind() const override;
 		void UnBind() const override;
-		inline unsigned int GetCount() const {
+		inline unsigned int GetCount() const override {
 			return m_Count;
 		};
 	};
