@@ -6,20 +6,19 @@ namespace Magnus {
 		
 	}
 	LayerStack::~LayerStack() {
-		for (Layer* layer : m_Layers) {
-			delete(layer);
-		}
+		
 		m_Layers.clear();
 	}
 	void LayerStack::PushLayer(Layer* layer) {
-		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
-		m_LayerInsertIndex++;
 		layer->OnAttach();
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, std::move(layer));
+		m_LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay) {
-		m_Layers.emplace_back(overlay);
 		overlay->OnAttach();
+		m_Layers.emplace_back(std::move(overlay));
+		
 	}
 
 	void LayerStack::PopLayer(Layer* layer) {

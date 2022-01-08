@@ -4,6 +4,7 @@
 #include "Magnus/Events/MouseEvent.h"
 #include "Magnus/Events/KeyEvent.h"
 #include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Magnus {
 	static bool s_GLFWInitialized = false;
@@ -28,7 +29,7 @@ namespace Magnus {
 		m_Data.m_Title = att.m_Title;
 		m_Data.m_Height = att.m_Height;
 		m_Data.m_Width = att.m_Width;
-
+	
 		MG_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.m_Title, m_Data.m_Width, m_Data.m_Height);
 
 		if (!s_GLFWInitialized) {
@@ -39,12 +40,11 @@ namespace Magnus {
 			s_GLFWInitialized = true;
 		}
 		m_Window = glfwCreateWindow((int)att.m_Width, (int)att.m_Height, att.m_Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		MG_CORE_ASSERT(status, "Failed to initialize Glad!");
+		m_Context = std::make_unique<OpenGLContext>(m_Window);
+		m_Context->Init();
+		
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(false);
-
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 			data->m_Width = width;
@@ -139,7 +139,7 @@ namespace Magnus {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffer();
 	}
 	void WindowsWindow::SetVSync(bool enabled)
 	{

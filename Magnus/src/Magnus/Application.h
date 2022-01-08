@@ -7,7 +7,7 @@
 #include "LayerStack.h"
 
 #include "Magnus/ImGui/ImGuiLayer.h"
-
+#include "Magnus/Render/Shader.h"
 namespace Magnus {
 	class MAGNUS_API Application
 	{
@@ -17,8 +17,8 @@ namespace Magnus {
 
 		void Run();
 		void OnEvent(Event& event);
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+		void PushLayer(Layer * layer);
+		void PushOverlay(Layer * layer);
 		inline WindowBasic& GetWindow() { return *m_Window; }
 
 		inline static Application& GetInstance() { return *s_Instance; }
@@ -27,9 +27,12 @@ namespace Magnus {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		static Application* s_Instance;
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		LayerStack m_LayerStack;
+		std::unique_ptr<Shader> m_Shader;
 
 		bool OnWindowClose(WindowCloseEvent& e);
-		LayerStack m_LayerStack;
+		
 		
 	};
 	//define in CLIENT 

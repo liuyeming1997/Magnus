@@ -1,7 +1,9 @@
 #pragma once
 #include "Magnus/Core.h"
 #include "Magnus/Window.h"
+#include "Magnus/Render/GraphicContext.h"
 #include <GLFW/glfw3.h>
+
 namespace Magnus {
 	class MAGNUS_API WindowsWindow : public WindowBasic
 	{
@@ -27,6 +29,7 @@ namespace Magnus {
 		void ShutDown();
 		
 	private:
+		std::unique_ptr<GraphicContext> m_Context;
 		GLFWwindow* m_Window;
 		//需要发送给glfw的数据
 		struct WindowData

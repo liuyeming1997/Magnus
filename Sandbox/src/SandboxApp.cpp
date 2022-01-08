@@ -28,7 +28,7 @@ public:
 			MG_INFO("checked press space");
 		}
 		
-		MG_TRACE("{0}", event);
+		//MG_TRACE("{0}", event);
 	}
 
 };
@@ -36,6 +36,7 @@ class Sandbox : public Magnus::Application
 {
 public:
 	Sandbox() {
+		
 		PushLayer(new ExampleLayer());
 		
 	}
