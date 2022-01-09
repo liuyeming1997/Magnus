@@ -9,6 +9,7 @@
 #include "Magnus/ImGui/ImGuiLayer.h"
 #include "Magnus/Render/Shader.h"
 #include "Magnus/Render/Buffer.h"
+#include "Magnus/Render/VertexArray.h"
 namespace Magnus {
 
 	class MAGNUS_API Application
@@ -29,11 +30,13 @@ namespace Magnus {
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		static Application* s_Instance;
-		unsigned int m_VertexArray;
 		LayerStack m_LayerStack;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+		std::shared_ptr<VertexArray> m_VertexArray;
+		std::shared_ptr<VertexArray> m_SquareVA;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<Shader> Square_Shader;
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
 		bool OnWindowClose(WindowCloseEvent& e);
 		

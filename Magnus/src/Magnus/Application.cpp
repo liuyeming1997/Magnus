@@ -6,38 +6,17 @@
 namespace Magnus {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_Instance = nullptr;
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-		case Magnus::ShaderDataType::Float:    return GL_FLOAT;
-		case Magnus::ShaderDataType::Float2:   return GL_FLOAT;
-		case Magnus::ShaderDataType::Float3:   return GL_FLOAT;
-		case Magnus::ShaderDataType::Float4:   return GL_FLOAT;
-		case Magnus::ShaderDataType::Mat3:     return GL_FLOAT;
-		case Magnus::ShaderDataType::Mat4:     return GL_FLOAT;
-		case Magnus::ShaderDataType::Int:      return GL_INT;
-		case Magnus::ShaderDataType::Int2:     return GL_INT;
-		case Magnus::ShaderDataType::Int3:     return GL_INT;
-		case Magnus::ShaderDataType::Int4:     return GL_INT;
-		case Magnus::ShaderDataType::Bool:     return GL_BOOL;
-		}
-
-		MG_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
 	Application::Application() {
 		MG_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<WindowBasic>(WindowBasic::Create());
+		m_Window.reset(WindowBasic::Create());
 		m_Window->SetEventCallBack(BIND_EVENT_FN(OnEvent));
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		glGenVertexArrays(1, &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		m_VertexArray.reset(VertexArray::Create());
+		m_VertexArray->Bind();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -49,33 +28,45 @@ namespace Magnus {
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 			
 
-		{
-			BufferLayout layout = {
+		BufferLayout layout = {
 			{ShaderDataType::Float3, "a_Position"},
 			{ShaderDataType::Float4, "a_Color"}
-			};
-			m_VertexBuffer->SetLayout(layout);
-		}
-		const auto& layout = m_VertexBuffer->GetLayout();
-		unsigned int index = 0;
-		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, 
-				element.GetComponentCount(), 
-				ShaderDataTypeToOpenGLBaseType(element.Type), 
-				element.Normalized? GL_TRUE : GL_FALSE, 
-				layout.GetStride(),
-				(const void *)element.Offset);
-			index++;
-		}
+		};
+		m_VertexBuffer->SetLayout(layout);
+		
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		
 	
 		unsigned int indices[3] = { 0, 1, 2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
-	
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		m_Shader = std::make_unique<Shader>("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert", 
 			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.frag");
+
+		m_SquareVA.reset(VertexArray::Create());
+		m_SquareVA->Bind();
+		float squareVertices[3 * 4] = {
+			-0.75f, -0.75f, 0.0f,
+			 0.75f, -0.75f, 0.0f,
+			 0.75f,  0.75f, 0.0f,
+			-0.75f,  0.75f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> squareVB;
+		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" }
+			});
+		m_SquareVA->AddVertexBuffer(squareVB);
+
+		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+		std::shared_ptr<IndexBuffer> squareIB;
+		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		m_SquareVA->SetIndexBuffer(squareIB);
+
+		Square_Shader.reset(new Shader("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.vert",
+			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.frag"));
 	}
 	// appÖ´ÐÐÊÂ¼þ
 	void  Application::OnEvent(Event& event) {
@@ -111,10 +102,13 @@ namespace Magnus {
 		while (m_Running) {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT); 
+			m_SquareVA->Bind();
+			Square_Shader->Bind();
+			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
+			m_VertexArray->Bind();
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 			//submit date
 			for (Layer *& layer : m_LayerStack)
 				layer->OnUpdate();

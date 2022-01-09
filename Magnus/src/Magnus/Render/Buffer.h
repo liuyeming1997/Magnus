@@ -101,7 +101,7 @@ namespace Magnus {
 	{
 	
 	public:
-		
+		 
 		virtual ~IndexBuffer() {};
 
 		virtual void Bind()const = 0;
