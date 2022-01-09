@@ -1,18 +1,17 @@
 #pragma once
+#include "RenderAPI.h"
 namespace Magnus {
-	enum RenderAPI
-	{
-		NONE = 0,
-		OPENGL
-	};
-	class Render
+	class  Render
 	{
 	public:
-		static RenderAPI Get() { return s_RenderAPI; }
+		static void BeginScene();
+		static void EndScene();
 
-	private:
-		static RenderAPI s_RenderAPI;
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RenderAPI::API GetAPI() { return RenderAPI::GetAPI(); }
 
 	};
+
 
 }

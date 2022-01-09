@@ -2,13 +2,14 @@
 #include "Buffer.h"
 #include "Magnus/Render/Render.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
+#include "RenderAPI.h"
 namespace Magnus {
 	VertexBuffer* VertexBuffer::Create(float* data, unsigned int size) {
-		switch (Render::Get())
+		switch (RenderAPI::GetAPI())
 		{
-		case RenderAPI::NONE: 
+		case RenderAPI::API::NONE: 
 			MG_CORE_ASSERT(false, "not use render API");
-		case RenderAPI::OPENGL:
+		case RenderAPI::API::OPENGL:
 			return new OpenGLVertexBuffer(data, size);
 
 		}
@@ -17,11 +18,11 @@ namespace Magnus {
 	}
 
 	IndexBuffer* IndexBuffer::Create(unsigned int* data, unsigned int size) {
-		switch (Render::Get())
+		switch (RenderAPI::GetAPI())
 		{ 
-		case RenderAPI::NONE:
+		case RenderAPI::API::NONE:
 			MG_CORE_ASSERT(false, "not use render API");
-		case RenderAPI::OPENGL:
+		case RenderAPI::API::OPENGL:
 			return new OpenGLIndexBuffer(data, size);
 
 		}

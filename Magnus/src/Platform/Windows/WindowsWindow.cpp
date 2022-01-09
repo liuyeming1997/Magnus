@@ -33,7 +33,6 @@ namespace Magnus {
 		MG_CORE_INFO("Creating window {0} ({1}, {2})", m_Data.m_Title, m_Data.m_Width, m_Data.m_Height);
 
 		if (!s_GLFWInitialized) {
-			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
 			MG_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);

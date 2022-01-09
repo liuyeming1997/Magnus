@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "Magnus/Render/Buffer.h"
 #include <glad/glad.h>
+#include "Magnus/Render/Render.h"
+#include "Magnus/Render/RenderCommand.h"
  
 namespace Magnus {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -25,7 +27,8 @@ namespace Magnus {
 		};
 			
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		std::shared_ptr<VertexBuffer> m_VertexBuffer = std::shared_ptr<VertexBuffer>
+			(VertexBuffer::Create(vertices, sizeof(vertices)));
 			
 
 		BufferLayout layout = {
@@ -38,7 +41,8 @@ namespace Magnus {
 		
 	
 		unsigned int indices[3] = { 0, 1, 2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
+		std::shared_ptr<IndexBuffer> m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
+	
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		m_Shader = std::make_unique<Shader>("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert", 
@@ -100,15 +104,18 @@ namespace Magnus {
 	}
 	void Application::Run() {
 		while (m_Running) {
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT); 
-			m_SquareVA->Bind();
-			Square_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_SquareVA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::Clear();
 
-			m_VertexArray->Bind();
+			Render::BeginScene();
+			Square_Shader->Bind();
+			Render::Submit(m_SquareVA);
+			Render::EndScene();
+
+			Render::BeginScene();
 			m_Shader->Bind();
-			glDrawElements(GL_TRIANGLES, m_VertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Render::Submit(m_VertexArray);
+			Render::EndScene();
 			//submit date
 			for (Layer *& layer : m_LayerStack)
 				layer->OnUpdate();
