@@ -1,6 +1,7 @@
 #pragma once
 #include "Magnus/Core.h"
 #include "Events/Event.h"
+#include "Core/Timestep.h"
 namespace Magnus {
 	class MAGNUS_API Layer 
 	{
@@ -11,7 +12,7 @@ namespace Magnus {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

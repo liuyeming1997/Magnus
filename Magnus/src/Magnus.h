@@ -10,3 +10,11 @@
 //-----Entry Point------------------
 #include "Magnus/EntryPoint.h"
 //----------------------------------
+
+//---------Render-------------------
+#include "Magnus/Render/Camera.h"
+#include "Magnus/Render/RenderCommand.h"
+#include "Magnus/Render/Render.h"
+
+//---------Core?--------------------
+#include "Magnus/Core/Timestep.h"

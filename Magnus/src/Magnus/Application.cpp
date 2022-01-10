@@ -2,14 +2,16 @@
 #include "Application.h"
 #include "Magnus/Render/Buffer.h"
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "Magnus/Render/Render.h"
 #include "Magnus/Render/RenderCommand.h"
 #include "Magnus/Render/Camera.h"
+#include "Magnus/Core/Timestep.h"
  
 namespace Magnus {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_Instance = nullptr;
-	Application::Application(): m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	Application::Application() {
 		
 		MG_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
@@ -19,60 +21,7 @@ namespace Magnus {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		m_VertexArray.reset(VertexArray::Create());
-		m_VertexArray->Bind();
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
-		};
-			
-
-		std::shared_ptr<VertexBuffer> m_VertexBuffer = std::shared_ptr<VertexBuffer>
-			(VertexBuffer::Create(vertices, sizeof(vertices)));
-			
-
-		BufferLayout layout = {
-			{ShaderDataType::Float3, "a_Position"},
-			{ShaderDataType::Float4, "a_Color"}
-		};
-		m_VertexBuffer->SetLayout(layout);
 		
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-		
-	
-		unsigned int indices[3] = { 0, 1, 2 };
-		std::shared_ptr<IndexBuffer> m_IndexBuffer = std::shared_ptr<IndexBuffer>(IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
-	
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-		m_Shader = std::make_unique<Shader>("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert", 
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.frag");
-
-		m_SquareVA.reset(VertexArray::Create());
-		m_SquareVA->Bind();
-		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f
-		};
-
-		std::shared_ptr<VertexBuffer> squareVB;
-		squareVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		squareVB->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" }
-			});
-		m_SquareVA->AddVertexBuffer(squareVB);
-
-		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<IndexBuffer> squareIB;
-		squareIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
-		m_SquareVA->SetIndexBuffer(squareIB);
-
-		Square_Shader.reset(new Shader("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.vert",
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.frag"));
 	}
 	// appÖ´ÐÐÊÂ¼þ
 	void  Application::OnEvent(Event& event) {
@@ -106,19 +55,12 @@ namespace Magnus {
 	}
 	void Application::Run() {
 		while (m_Running) {
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-			RenderCommand::Clear();
-
-			Render::BeginScene(m_Camera);
-			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
-			m_Camera.SetRotation(45.0f);
-			Render::Submit(m_SquareVA, Square_Shader);
-			Render::Submit(m_VertexArray, m_Shader);
-			Render::EndScene();
-
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 			//submit date
 			for (Layer *& layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			
 			//rendor
 			m_ImGuiLayer->Begin();

@@ -19,8 +19,6 @@ namespace Magnus {
 		Application();
 		virtual ~Application();
 
-		Camera m_Camera;
-
 		void Run();
 		void OnEvent(Event& event);
 		void PushLayer(Layer * layer);
@@ -34,12 +32,8 @@ namespace Magnus {
 		bool m_Running = true;
 		static Application* s_Instance;
 		LayerStack m_LayerStack;
-		std::shared_ptr<VertexArray> m_VertexArray;
-		std::shared_ptr<VertexArray> m_SquareVA;
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<Shader> Square_Shader;
 	
-
+		float m_LastFrameTime = 0.0f;
 		bool OnWindowClose(WindowCloseEvent& e);
 		
 		
