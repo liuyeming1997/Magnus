@@ -10,6 +10,7 @@
 #include "Magnus/Render/Shader.h"
 #include "Magnus/Render/Buffer.h"
 #include "Magnus/Render/VertexArray.h"
+#include "Magnus/Render/Camera.h"
 namespace Magnus {
 
 	class MAGNUS_API Application
@@ -17,6 +18,8 @@ namespace Magnus {
 	public:
 		Application();
 		virtual ~Application();
+
+		Camera m_Camera;
 
 		void Run();
 		void OnEvent(Event& event);

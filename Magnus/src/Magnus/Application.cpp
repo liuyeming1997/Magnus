@@ -4,11 +4,13 @@
 #include <glad/glad.h>
 #include "Magnus/Render/Render.h"
 #include "Magnus/Render/RenderCommand.h"
+#include "Magnus/Render/Camera.h"
  
 namespace Magnus {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_Instance = nullptr;
-	Application::Application() {
+	Application::Application(): m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+		
 		MG_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
@@ -107,15 +109,13 @@ namespace Magnus {
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
 
-			Render::BeginScene();
-			Square_Shader->Bind();
-			Render::Submit(m_SquareVA);
+			Render::BeginScene(m_Camera);
+			m_Camera.SetPosition({ 0.5f, 0.5f, 0.0f });
+			m_Camera.SetRotation(45.0f);
+			Render::Submit(m_SquareVA, Square_Shader);
+			Render::Submit(m_VertexArray, m_Shader);
 			Render::EndScene();
 
-			Render::BeginScene();
-			m_Shader->Bind();
-			Render::Submit(m_VertexArray);
-			Render::EndScene();
 			//submit date
 			for (Layer *& layer : m_LayerStack)
 				layer->OnUpdate();

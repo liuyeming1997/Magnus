@@ -1,15 +1,24 @@
 #pragma once
 #include "RenderAPI.h"
+#include "Magnus/Render/Camera.h"
+#include "Magnus/Render/Shader.h"
 namespace Magnus {
 	class  Render
 	{
 	public:
-		static void BeginScene();
+		static void BeginScene(const Camera& camra);
 		static void EndScene();
 
-		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader);
 
 		inline static RenderAPI::API GetAPI() { return RenderAPI::GetAPI(); }
+	private:
+		struct SceneData
+		{
+			glm::mat4 ViewProjectionMatrix;
+		};
+
+		static SceneData* m_SceneData;
 
 	};
 

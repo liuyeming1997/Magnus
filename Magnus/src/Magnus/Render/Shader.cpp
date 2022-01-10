@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 namespace Magnus {
     Shader::Shader(const std::string& _Vertpath, const std::string& _Fragpath) :m_VertPath(_Vertpath), m_FragPath(_Fragpath), m_RendererID(0) {
         ShaderProgramSource pt = ParseShader(_Vertpath, _Fragpath);
@@ -30,7 +31,7 @@ namespace Magnus {
 
     }
     void Shader::SetUniforMat4f(const std::string& name, const glm::mat4& matrix) {
-        glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
+        glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
     }
     void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) {
         glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
