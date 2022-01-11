@@ -39,7 +39,7 @@ namespace Magnus {
 			s_GLFWInitialized = true;
 		}
 		m_Window = glfwCreateWindow((int)att.m_Width, (int)att.m_Height, att.m_Title.c_str(), nullptr, nullptr);
-		m_Context = std::make_unique<OpenGLContext>(m_Window);
+		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
 		
 		glfwSetWindowUserPointer(m_Window, &m_Data);

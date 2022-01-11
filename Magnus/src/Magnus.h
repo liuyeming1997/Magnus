@@ -15,7 +15,10 @@
 #include "Magnus/Render/Camera.h"
 #include "Magnus/Render/RenderCommand.h"
 #include "Magnus/Render/Render.h"
+#include "Magnus/Render/Texture.h"
 #include "Platform/OpenGL/OpenGlShader.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
 
 //---------Core?--------------------
 #include "Magnus/Core/Timestep.h"
+#include "Magnus/Core.h"

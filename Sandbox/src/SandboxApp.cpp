@@ -21,7 +21,7 @@ public:
 		};
 
 
-		std::shared_ptr<Magnus::VertexBuffer> m_VertexBuffer = std::shared_ptr<Magnus::VertexBuffer>
+		Magnus::Ref<Magnus::VertexBuffer> m_VertexBuffer = Magnus::Ref<Magnus::VertexBuffer>
 			(Magnus::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 
@@ -35,36 +35,41 @@ public:
 
 
 		unsigned int indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Magnus::IndexBuffer> m_IndexBuffer = std::shared_ptr<Magnus::IndexBuffer>(Magnus::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
+		Magnus::Ref<Magnus::IndexBuffer> m_IndexBuffer = Magnus::Ref<Magnus::IndexBuffer>(Magnus::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int)));
 
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		m_Shader.reset(Magnus::Shader::Create("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert",
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.frag"));
+		m_Shader.reset(Magnus::Shader::Create("assert/shader/shader.vert",
+			"assert/shader/shader.frag"));
 
 		m_SquareVA.reset(Magnus::VertexArray::Create());
 		m_SquareVA->Bind();
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		std::shared_ptr<Magnus::VertexBuffer> squareVB;
+		Magnus::Ref<Magnus::VertexBuffer> squareVB;
 		squareVB.reset(Magnus::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVB->SetLayout({
-			{ Magnus::ShaderDataType::Float3, "a_Position" }
+			{ Magnus::ShaderDataType::Float3, "a_Position" },
+			{ Magnus::ShaderDataType::Float2, "a_TexCoord" }
 			});
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Magnus::IndexBuffer> squareIB;
+		Magnus::Ref<Magnus::IndexBuffer> squareIB;
 		squareIB.reset(Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		Square_Shader.reset((Magnus::Shader::Create("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.vert",
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.frag")));
+		Square_Shader.reset((Magnus::Shader::Create("assert/shader/square.vert",
+			"assert/shader/square.frag")));
+
+		m_Texture = std::move(Magnus::Texture2D::Create("assert/texture/container2.png"));
+		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
+		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform1i("u_Texture", 0);
 		
 	}
 
@@ -73,7 +78,7 @@ public:
 		Magnus::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Magnus::RenderCommand::Clear();
 
-		MG_INFO(ts);
+		
 		if (Magnus::Input::IsKeyPressed(MG_KEY_UP)) 
 			m_CameraPosition.y += CameraMoveSpeed * ts;
 		else if (Magnus::Input::IsKeyPressed(MG_KEY_DOWN)) 
@@ -104,9 +109,10 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
-		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform3f("u_Color", m_SquareColor);
-
+		//std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
+		//std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform3f("u_Color", m_SquareColor);
+		m_Texture->Bind();
+		//Magnus::Render::Submit(m_SquareVA, Square_Shader, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
@@ -116,9 +122,8 @@ public:
 				Magnus::Render::Submit(m_SquareVA, Square_Shader, transform);
 			}
 		}
-
-
 		
+
 		Magnus::Render::Submit(m_VertexArray, m_Shader);
 		Magnus::Render::EndScene();
 	}
@@ -141,10 +146,11 @@ public:
 
 
 private:
-	std::shared_ptr<Magnus::VertexArray> m_VertexArray;
-	std::shared_ptr<Magnus::VertexArray> m_SquareVA;
-	std::shared_ptr<Magnus::Shader> m_Shader;
-	std::shared_ptr<Magnus::Shader> Square_Shader;
+	Magnus::Ref<Magnus::VertexArray> m_VertexArray;
+	Magnus::Ref<Magnus::VertexArray> m_SquareVA;
+	Magnus::Ref<Magnus::Shader> m_Shader;
+	Magnus::Ref<Magnus::Shader> Square_Shader;
+	Magnus::Ref<Magnus::Texture2D> m_Texture;
 
 	Magnus::Camera m_Camera;
 	glm::vec3 m_CameraPosition;

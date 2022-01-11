@@ -7,7 +7,7 @@ namespace Magnus {
 		virtual void SetClearColor(const glm::vec4& backgroundColor);
 		virtual void Clear();
 
-		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray);
 	};
 }
 

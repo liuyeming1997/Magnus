@@ -29,7 +29,7 @@ namespace Magnus {
 		void ShutDown();
 		
 	private:
-		std::unique_ptr<GraphicContext> m_Context;
+		GraphicContext* m_Context;
 		GLFWwindow* m_Window;
 		//需要发送给glfw的数据
 		struct WindowData

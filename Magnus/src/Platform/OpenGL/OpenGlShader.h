@@ -28,4 +28,5 @@ namespace Magnus {
 		unsigned int CreateShader(const std::string& vertexShader, const std::string& fagmentShader);
 		ShaderProgramSource ParseShader(const std::string& VerPath, const std::string& FraPath);
 	};
+
 }

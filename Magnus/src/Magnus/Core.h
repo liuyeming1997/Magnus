@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #ifdef MG_PLATFORM_WINDOWS
 #if MG_DYNAMIC_LINK
 	#ifdef MG_BUILD_DLL
@@ -29,3 +30,13 @@
 #endif
 #define BIT(x) 1<<x
 
+
+namespace Magnus {
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+}

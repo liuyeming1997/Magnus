@@ -14,6 +14,7 @@ IncludeDir["GLFW"] = "Magnus/vendor/GLFW/include"
 IncludeDir["Glad"] = "Magnus/vendor/Glad/include"
 IncludeDir["ImGui"] = "Magnus/vendor/imgui"
 IncludeDir["glm"] = "Magnus/vendor/glm"
+IncludeDir["stb_image"] = "Magnus/vendor/stb_image"
 group "Dependencies"
 	include "Magnus/vendor/GLFW"
 	include "Magnus/vendor/Glad"
@@ -38,7 +39,9 @@ project "Magnus"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb_image/stb_image.cpp",
+		"%{prj.name}/vendor/stb_image/stb_image.h"
 	}
 	defines
 	{
@@ -53,7 +56,8 @@ project "Magnus"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.stb_image}"
 
 	}
 
