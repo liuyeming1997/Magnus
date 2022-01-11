@@ -1,11 +1,15 @@
 #include <Magnus.h>
 
 #include "imgui/imgui.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class ExampleLayer : public Magnus::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f),
+		m_SquarePosition(0.0f)
 	{
 		m_VertexArray.reset(Magnus::VertexArray::Create());
 		m_VertexArray->Bind();
@@ -35,16 +39,16 @@ public:
 
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		m_Shader = std::make_unique<Magnus::Shader>("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert",
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.frag");
+		m_Shader.reset(Magnus::Shader::Create("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.vert",
+			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/shader.frag"));
 
 		m_SquareVA.reset(Magnus::VertexArray::Create());
 		m_SquareVA->Bind();
 		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,  0.5f, 0.0f,
+			-0.5f,  0.5f, 0.0f
 		};
 
 		std::shared_ptr<Magnus::VertexBuffer> squareVB;
@@ -59,8 +63,8 @@ public:
 		squareIB.reset(Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		Square_Shader.reset(new Magnus::Shader("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.vert",
-			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.frag"));
+		Square_Shader.reset((Magnus::Shader::Create("C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.vert",
+			"C:/dev/Magnus/Magnus/src/Magnus/Render/shader/square.frag")));
 		
 	}
 
@@ -86,16 +90,43 @@ public:
 		m_Camera.SetPosition(m_CameraPosition);
 		m_Camera.SetRotation(m_CameraRotation);
 
+
+		if (Magnus::Input::IsKeyPressed(MG_KEY_I))
+			m_SquarePosition.y += SquareMoveSpeed * ts;
+		else if (Magnus::Input::IsKeyPressed(MG_KEY_K))
+			m_SquarePosition.y -= SquareMoveSpeed * ts;
+		else if (Magnus::Input::IsKeyPressed(MG_KEY_J))
+			m_SquarePosition.x -= SquareMoveSpeed * ts;
+		else if (Magnus::Input::IsKeyPressed(MG_KEY_L))
+			m_SquarePosition.x += SquareMoveSpeed * ts;
+
 		Magnus::Render::BeginScene(m_Camera);
-		Magnus::Render::Submit(m_SquareVA, Square_Shader);
+
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
+		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform3f("u_Color", m_SquareColor);
+
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Magnus::Render::Submit(m_SquareVA, Square_Shader, transform);
+			}
+		}
+
+
+		
 		Magnus::Render::Submit(m_VertexArray, m_Shader);
 		Magnus::Render::EndScene();
 	}
 
 	virtual void OnImGuiRender() override 
 	{
-		ImGui::Begin("Test");
-		ImGui::Text("Hello world");
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 
@@ -117,9 +148,13 @@ private:
 
 	Magnus::Camera m_Camera;
 	glm::vec3 m_CameraPosition;
+	glm::vec3 m_SquarePosition;
+	float SquareMoveSpeed = 2.0f;
 	float CameraMoveSpeed = 1.0f;
 	float m_CameraRotation = 0.0f;
 	float CameraRotateSpeed = 2.1f;
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 class Sandbox : public Magnus::Application
 {
