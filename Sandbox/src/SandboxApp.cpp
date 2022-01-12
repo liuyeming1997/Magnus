@@ -64,8 +64,7 @@ public:
 		squareIB.reset(Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		Square_Shader.reset((Magnus::Shader::Create("assert/shader/square.vert",
-			"assert/shader/square.frag")));
+		Square_Shader.reset((Magnus::Shader::Create("assert/shader/Texture.glsl")));
 
 		m_Texture = std::move(Magnus::Texture2D::Create("assert/texture/container2.png"));
 		m_ChernoLogoTexture = std::move(Magnus::Texture2D::Create("assert/texture/ChernoLogo.png"));
