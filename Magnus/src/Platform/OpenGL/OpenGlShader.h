@@ -10,10 +10,11 @@ namespace Magnus {
 	{
 	public:
 		OpenGLShader(const std::string& filepath);
-		OpenGLShader(const std::string& m_VertPath, const std::string& m_FragPath);
+		OpenGLShader(const std::string& name, const std::string& m_VertPath, const std::string& m_FragPath);
 		~OpenGLShader();
 		void Bind() const override;
 		void UnBind() const override;
+		const std::string& GetName() const override;
 		void SetUniform1i(const std::string& name, int value);
 		void SetUniform1f(const std::string& name, float value);
 		void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
@@ -24,6 +25,7 @@ namespace Magnus {
 		unsigned int m_RenderID;
 		std::string m_VertPath;
 		std::string m_FragPath;
+		std::string m_Name;
 		mutable std::unordered_map<std::string, int> m_uniformaLocationCache;
 
 		std::string ReadFile(const std::string& filepath);
@@ -35,5 +37,7 @@ namespace Magnus {
 		unsigned int CreateShader(const std::string& vertexShader, const std::string& fagmentShader);
 		ShaderProgramSource ParseShader(const std::string& VerPath, const std::string& FraPath);
 	};
+
+	
 
 }

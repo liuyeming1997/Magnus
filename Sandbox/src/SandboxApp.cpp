@@ -9,8 +9,9 @@ class ExampleLayer : public Magnus::Layer
 public:
 	ExampleLayer()
 		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f),
-		m_SquarePosition(0.0f)
+		m_SquarePosition(0.0f), m_ShaderLibrary()
 	{
+
 		m_VertexArray.reset(Magnus::VertexArray::Create());
 		m_VertexArray->Bind();
 
@@ -39,8 +40,8 @@ public:
 
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		m_Shader.reset(Magnus::Shader::Create("assert/shader/shader.vert",
-			"assert/shader/shader.frag"));
+		auto& m_Shader = m_ShaderLibrary.Load("shader", "assert/shader/shader.vert",
+			"assert/shader/shader.frag");
 
 		m_SquareVA.reset(Magnus::VertexArray::Create());
 		m_SquareVA->Bind();
@@ -64,7 +65,7 @@ public:
 		squareIB.reset(Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		Square_Shader.reset((Magnus::Shader::Create("assert/shader/Texture.glsl")));
+		auto Square_Shader = m_ShaderLibrary.Load("assert/shader/Texture.glsl");
 
 		m_Texture = std::move(Magnus::Texture2D::Create("assert/texture/container2.png"));
 		m_ChernoLogoTexture = std::move(Magnus::Texture2D::Create("assert/texture/ChernoLogo.png"));
@@ -123,9 +124,9 @@ public:
 		}*/
 		m_Texture->Bind();
 		
-		Magnus::Render::Submit(m_SquareVA, Square_Shader);
+		Magnus::Render::Submit(m_SquareVA, m_ShaderLibrary.GetShader("Texture"));
 		m_ChernoLogoTexture->Bind();
-		Magnus::Render::Submit(m_SquareVA, Square_Shader);
+		Magnus::Render::Submit(m_SquareVA, m_ShaderLibrary.GetShader("Texture"));
 		//Magnus::Render::Submit(m_VertexArray, m_Shader);
 		Magnus::Render::EndScene();
 	}
@@ -150,11 +151,9 @@ public:
 private:
 	Magnus::Ref<Magnus::VertexArray> m_VertexArray;
 	Magnus::Ref<Magnus::VertexArray> m_SquareVA;
-	Magnus::Ref<Magnus::Shader> m_Shader;
-	Magnus::Ref<Magnus::Shader> Square_Shader;
 	Magnus::Ref<Magnus::Texture2D> m_Texture;
 	Magnus::Ref<Magnus::Texture2D>  m_ChernoLogoTexture;
-
+	Magnus::ShaderLibrary m_ShaderLibrary;
 	Magnus::Camera m_Camera;
 	glm::vec3 m_CameraPosition;
 	glm::vec3 m_SquarePosition;

@@ -18,10 +18,19 @@ namespace Magnus {
         MG_CORE_ASSERT(false, "Unknown shader type!");
         return 0;
     }
+    const std::string& OpenGLShader::GetName() const {
+        return m_Name;
+    }
     OpenGLShader::OpenGLShader(const std::string& filepath) {
         std::string source = ReadFile(filepath);
         auto shaderSources = PreProcess(source);
         Compile(shaderSources);
+
+        auto lastSlash = filepath.find_last_of("/\\");
+        lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+        auto lastDot = filepath.rfind('.');
+        auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+        m_Name = filepath.substr(lastSlash, count);
     }
     std::string OpenGLShader::ReadFile(const std::string& filepath) {
         std::string result;
@@ -52,7 +61,6 @@ namespace Magnus {
         while (pos != std::string::npos)
         {
             size_t eol = source.find_first_of("\r\n", pos);
-            MG_CORE_INFO(eol);
             MG_CORE_ASSERT(eol != std::string::npos, "Syntax error");
             size_t begin = pos + typeTokenLength + 1;
             std::string type = source.substr(begin, eol - begin);
@@ -67,7 +75,9 @@ namespace Magnus {
     }
     void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
         GLuint program = glCreateProgram();
-        std::vector<GLenum> glShaderIDs(shaderSources.size());
+        MG_CORE_ASSERT(shaderSources.size() <= 2, "Only permitted to have 2 shaders");
+        std::array<GLenum, 2> glShaderIDs;
+        int glShaderIndex = 0;
         for (auto& kv : shaderSources)
         {
             GLenum type = kv.first;
@@ -98,7 +108,8 @@ namespace Magnus {
             }
 
             glAttachShader(program, shader);
-            glShaderIDs.push_back(shader);
+            glShaderIDs[glShaderIndex] = shader;
+            glShaderIndex++;
         }
 
 
@@ -129,10 +140,15 @@ namespace Magnus {
         }
 
         for (auto id : glShaderIDs)
-            glDetachShader(program, id);
+            glDetachShader(program, id); 
         m_RenderID = program;
     }
-    OpenGLShader::OpenGLShader(const std::string& _Vertpath, const std::string& _Fragpath) :m_VertPath(_Vertpath), m_FragPath(_Fragpath), m_RenderID(0) {
+
+
+   
+    /// ////////////////two file////////////////////////////////
+
+    OpenGLShader::OpenGLShader(const std::string& name, const std::string& _Vertpath, const std::string& _Fragpath) :m_VertPath(_Vertpath), m_FragPath(_Fragpath), m_RenderID(0), m_Name(name) {
         ShaderProgramSource pt = ParseShader(_Vertpath, _Fragpath);
         m_RenderID = CreateShader(pt.vertexSource, pt.FragmentSource);
     }
