@@ -21,6 +21,8 @@ namespace Magnus {
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
+		Render::Init();
+
 		
 	}
 	// appÖ´ĞĞÊÂ¼ş

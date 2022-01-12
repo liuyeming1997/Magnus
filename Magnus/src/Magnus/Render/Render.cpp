@@ -6,6 +6,9 @@
 
 namespace Magnus {
 	Render::SceneData* Render::m_SceneData = new Render::SceneData;
+	void Render::Init() {
+		RenderCommand::Init();
+	}
 	void Render::BeginScene(const Camera& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetGetViewProjectionMatrix();

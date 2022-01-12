@@ -12,18 +12,23 @@ namespace Magnus {
 		m_Width = width;
 		m_Height = height;
 		m_BPP = channels;
-		
+		GLenum internalFormat = 0, dataFormat = 0;
+		if (channels == 4) {
+			internalFormat = GL_RGBA8;
+			dataFormat = GL_RGBA;
+		}
+		else if (channels == 3) {
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+		MG_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!")
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RenderID);
-		glTextureStorage2D(GL_TEXTURE_2D, 1, GL_RGB8, m_Width, m_Height);
-		
-		
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_RenderID);
-		glTextureStorage2D(m_RenderID, 1, GL_RGB8, m_Width, m_Height);
+		glTextureStorage2D(m_RenderID, 1, internalFormat, m_Width, m_Height);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTextureParameteri(m_RenderID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTextureParameteri(m_RenderID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureSubImage2D(m_RenderID, 0, 0, 0, m_Width, m_Height, GL_RGBA, GL_UNSIGNED_BYTE, m_locationBuffer);
+		glTextureSubImage2D(m_RenderID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, m_locationBuffer);
 
 		stbi_image_free(m_locationBuffer);
 

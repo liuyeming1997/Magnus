@@ -6,6 +6,8 @@ namespace Magnus {
 	class  Render
 	{
 	public:
+
+		static void Init();
 		static void BeginScene(const Camera& camra);
 		static void EndScene();
 

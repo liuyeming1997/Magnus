@@ -68,6 +68,7 @@ public:
 			"assert/shader/square.frag")));
 
 		m_Texture = std::move(Magnus::Texture2D::Create("assert/texture/container2.png"));
+		m_ChernoLogoTexture = std::move(Magnus::Texture2D::Create("assert/texture/ChernoLogo.png"));
 		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
 		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform1i("u_Texture", 0);
 		
@@ -111,9 +112,8 @@ public:
 
 		//std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
 		//std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform3f("u_Color", m_SquareColor);
-		m_Texture->Bind();
 		//Magnus::Render::Submit(m_SquareVA, Square_Shader, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-		for (int y = 0; y < 20; y++)
+		/*for (int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
@@ -121,10 +121,13 @@ public:
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 				Magnus::Render::Submit(m_SquareVA, Square_Shader, transform);
 			}
-		}
+		}*/
+		m_Texture->Bind();
 		
-
-		Magnus::Render::Submit(m_VertexArray, m_Shader);
+		Magnus::Render::Submit(m_SquareVA, Square_Shader);
+		m_ChernoLogoTexture->Bind();
+		Magnus::Render::Submit(m_SquareVA, Square_Shader);
+		//Magnus::Render::Submit(m_VertexArray, m_Shader);
 		Magnus::Render::EndScene();
 	}
 
@@ -151,6 +154,7 @@ private:
 	Magnus::Ref<Magnus::Shader> m_Shader;
 	Magnus::Ref<Magnus::Shader> Square_Shader;
 	Magnus::Ref<Magnus::Texture2D> m_Texture;
+	Magnus::Ref<Magnus::Texture2D>  m_ChernoLogoTexture;
 
 	Magnus::Camera m_Camera;
 	glm::vec3 m_CameraPosition;

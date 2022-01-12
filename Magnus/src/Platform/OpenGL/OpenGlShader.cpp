@@ -43,7 +43,7 @@ namespace Magnus {
     void OpenGLShader::SetUniform3f(const std::string& name, const glm::vec3& v) {
         glUniform3f(GetUniformLocation(name), v.x, v.y, v.z);
     }
-    int OpenGLShader::GetUniformLocation(const std::string& name) {
+    int OpenGLShader::GetUniformLocation(const std::string& name) const {
         if (m_uniformaLocationCache.find(name) != m_uniformaLocationCache.end()) {
             return m_uniformaLocationCache[name];
         }

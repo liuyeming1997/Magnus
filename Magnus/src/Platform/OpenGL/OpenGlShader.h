@@ -21,9 +21,9 @@ namespace Magnus {
 		unsigned int m_RendererID;
 		std::string m_VertPath;
 		std::string m_FragPath;
-		std::unordered_map<std::string, int> m_uniformaLocationCache;
+		mutable std::unordered_map<std::string, int> m_uniformaLocationCache;
 
-		int GetUniformLocation(const std::string& name);
+		int GetUniformLocation(const std::string& name) const;
 		unsigned int CompileShader(const std::string& source, unsigned int type);
 		unsigned int CreateShader(const std::string& vertexShader, const std::string& fagmentShader);
 		ShaderProgramSource ParseShader(const std::string& VerPath, const std::string& FraPath);

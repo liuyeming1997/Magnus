@@ -4,10 +4,11 @@ namespace Magnus {
 	class OpenGLRenderAPI : public RenderAPI
 	{
 	public:
-		virtual void SetClearColor(const glm::vec4& backgroundColor);
-		virtual void Clear();
+		virtual void Init() override;
+		virtual void SetClearColor(const glm::vec4& backgroundColor) override;
+		virtual void Clear() override;
 
-		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray);
+		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 	};
 }
 
