@@ -9,7 +9,6 @@
 #include "Magnus/Core/Timestep.h"
  
 namespace Magnus {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_Instance = nullptr;
 	Application::Application() {
 		
@@ -17,7 +16,7 @@ namespace Magnus {
 		s_Instance = this;
 
 		m_Window.reset(WindowBasic::Create());
-		m_Window->SetEventCallBack(BIND_EVENT_FN(OnEvent));
+		m_Window->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
@@ -29,7 +28,7 @@ namespace Magnus {
 	void  Application::OnEvent(Event& event) {
 		EventDispatcher dispacher(event);
 		//先分发事件
-		dispacher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispacher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			//再判断哪个层执行事件（maybe)

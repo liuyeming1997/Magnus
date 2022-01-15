@@ -12,7 +12,7 @@
 //----------------------------------
 
 //---------Render-------------------
-#include "Magnus/Render/Camera.h"
+#include "Magnus/Render/CameraControl.h"
 #include "Magnus/Render/RenderCommand.h"
 #include "Magnus/Render/Render.h"
 #include "Magnus/Render/Texture.h"

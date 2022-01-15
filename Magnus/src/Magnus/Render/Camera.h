@@ -8,14 +8,11 @@ namespace Magnus {
 	public:
 
 		Camera::Camera(float left, float right, float bottom, float top);
-		glm::mat4 SetViewMatrix()
+		/*glm::mat4 SetViewMatrix()
 		{
 			return glm::lookAt(m_Position, m_Position + m_LookDir, m_LookUp);
-		}
-		glm::mat4 SetProjection() {
-			m_ProjectionMatrix = glm::perspective(m_Fov, m_ScreenRato, m_NearZ, m_FarZ);
-		}
-		glm::mat4 SetOrthographic(float left, float right, float bottom, float top) {
+		}*/
+		void SetOrthographic(float left, float right, float bottom, float top) {
 			m_OrthographicMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		}
 		const glm::vec3& GetPosition() { return m_Position; }
@@ -41,7 +38,7 @@ namespace Magnus {
 		float m_left;
 		float m_Rotation = 0.0f;
 
-		glm::mat4 m_ProjectionMatrix;
+
 		glm::mat4 m_OrthographicMatrix;
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ViewProjectionMatrix;

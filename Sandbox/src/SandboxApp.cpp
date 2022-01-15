@@ -8,7 +8,7 @@ class ExampleLayer : public Magnus::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f),
+		: Layer("Example"), m_CameraControl(1280.0f / 720.0f),
 		m_SquarePosition(0.0f), m_ShaderLibrary()
 	{
 
@@ -69,6 +69,7 @@ public:
 
 		m_Texture = std::move(Magnus::Texture2D::Create("assert/texture/container2.png"));
 		m_ChernoLogoTexture = std::move(Magnus::Texture2D::Create("assert/texture/ChernoLogo.png"));
+
 		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->Bind();
 		std::dynamic_pointer_cast<Magnus::OpenGLShader>(Square_Shader)->SetUniform1i("u_Texture", 0);
 		
@@ -80,33 +81,19 @@ public:
 		Magnus::RenderCommand::Clear();
 
 		
-		if (Magnus::Input::IsKeyPressed(MG_KEY_UP)) 
-			m_CameraPosition.y += CameraMoveSpeed * ts;
-		else if (Magnus::Input::IsKeyPressed(MG_KEY_DOWN)) 
-			m_CameraPosition.y -= CameraMoveSpeed * ts;
-		else if (Magnus::Input::IsKeyPressed(MG_KEY_LEFT))
-			m_CameraPosition.x -= CameraMoveSpeed * ts;
-		else if (Magnus::Input::IsKeyPressed(MG_KEY_RIGHT))
-			m_CameraPosition.x += CameraMoveSpeed * ts;
 
-		if (Magnus::Input::IsKeyPressed(MG_KEY_A))
-			m_CameraRotation += CameraRotateSpeed * ts;
-		if (Magnus::Input::IsKeyPressed(MG_KEY_D))
-			m_CameraRotation -= CameraRotateSpeed * ts;
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-
-		if (Magnus::Input::IsKeyPressed(MG_KEY_I))
+		m_CameraControl.OnUpdate(ts);
+		/*if (Magnus::Input::IsKeyPressed(MG_KEY_I))
 			m_SquarePosition.y += SquareMoveSpeed * ts;
 		else if (Magnus::Input::IsKeyPressed(MG_KEY_K))
 			m_SquarePosition.y -= SquareMoveSpeed * ts;
 		else if (Magnus::Input::IsKeyPressed(MG_KEY_J))
 			m_SquarePosition.x -= SquareMoveSpeed * ts;
 		else if (Magnus::Input::IsKeyPressed(MG_KEY_L))
-			m_SquarePosition.x += SquareMoveSpeed * ts;
+			m_SquarePosition.x += SquareMoveSpeed * ts;*/
 
-		Magnus::Render::BeginScene(m_Camera);
+
+		Magnus::Render::BeginScene(m_CameraControl.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -143,6 +130,7 @@ public:
 		if (Magnus::Input::IsKeyPressed(MG_KEY_SPACE)) {
 			MG_INFO("checked press space");
 		}
+		m_CameraControl.OnEvent(event);
 		
 		//MG_TRACE("{0}", event);
 	}
@@ -154,13 +142,11 @@ private:
 	Magnus::Ref<Magnus::Texture2D> m_Texture;
 	Magnus::Ref<Magnus::Texture2D>  m_ChernoLogoTexture;
 	Magnus::ShaderLibrary m_ShaderLibrary;
-	Magnus::Camera m_Camera;
-	glm::vec3 m_CameraPosition;
+	Magnus::CameraControl m_CameraControl;
+	
 	glm::vec3 m_SquarePosition;
 	float SquareMoveSpeed = 2.0f;
-	float CameraMoveSpeed = 1.0f;
-	float m_CameraRotation = 0.0f;
-	float CameraRotateSpeed = 2.1f;
+
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
