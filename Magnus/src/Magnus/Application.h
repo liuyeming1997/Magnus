@@ -30,11 +30,13 @@ namespace Magnus {
 		Scope<WindowBasic> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
+		bool m_IsMini = false;
 		static Application* s_Instance;
 		LayerStack m_LayerStack;
 	
 		float m_LastFrameTime = 0.0f;
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 		
 		
 	};

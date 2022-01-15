@@ -43,7 +43,8 @@ namespace Magnus {
 
 	bool CameraControl::OnWindowResized(WindowResizeEvent& e)
 	{
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight(); 
+		MG_CORE_WARN("{0}  {1}",e.GetWidth(), e.GetHeight());
 		m_Camera.SetOrthographic(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 		return false;
 	}

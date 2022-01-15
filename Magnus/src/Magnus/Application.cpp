@@ -29,6 +29,7 @@ namespace Magnus {
 		EventDispatcher dispacher(event);
 		//先分发事件
 		dispacher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispacher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			//再判断哪个层执行事件（maybe)
@@ -60,12 +61,13 @@ namespace Magnus {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 			//submit date
-			for (Layer *& layer : m_LayerStack)
-				layer->OnUpdate(timestep);
-			
+			if (!m_IsMini) {
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 			//rendor
 			m_ImGuiLayer->Begin();
-			for (Layer *& layer : m_LayerStack)
+			for (Layer * layer : m_LayerStack)
 				layer->OnImGuiRender();
 			m_ImGuiLayer->End();
 
@@ -80,5 +82,16 @@ namespace Magnus {
 		return true;
 
 	}
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetHeight() == 0 || e.GetWidth() == 0) {
+			m_IsMini = true;
+			return false;
+		}
+		m_IsMini = false;
+		Render::OnWindowResize(e.GetWidth(), e.GetHeight());
+		// 实验一下不往下传
+		return false;
 
+	}
 }
