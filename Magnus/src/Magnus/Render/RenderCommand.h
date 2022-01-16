@@ -26,7 +26,7 @@ namespace Magnus {
 			s_RenderAPI->SetViewPort(x, y, width, height);
 		}
 	private:
-		static RenderAPI* s_RenderAPI;
+		static Scope<RenderAPI> s_RenderAPI;
 	};
 }
 

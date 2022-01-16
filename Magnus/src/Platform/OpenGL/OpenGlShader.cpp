@@ -140,7 +140,10 @@ namespace Magnus {
         }
 
         for (auto id : glShaderIDs)
-            glDetachShader(program, id); 
+        {
+            glDetachShader(program, id);
+            glDeleteShader(id);
+        }
         m_RenderID = program;
     }
 

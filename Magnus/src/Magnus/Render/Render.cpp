@@ -5,13 +5,13 @@
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Magnus {
-	Render::SceneData* Render::m_SceneData = new Render::SceneData;
+	Scope<Render::SceneData> Render::s_SceneData = CreateScope<Render::SceneData>();
 	void Render::Init() {
 		RenderCommand::Init();
 	}
 	void Render::BeginScene(const Camera& camera)
 	{
-		m_SceneData->ViewProjectionMatrix = camera.GetGetViewProjectionMatrix();
+		s_SceneData->ViewProjectionMatrix = camera.GetGetViewProjectionMatrix();
 	}
 
 	void Render::EndScene()
@@ -23,7 +23,7 @@ namespace Magnus {
 		const glm::mat4& transform)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniforMat4f("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniforMat4f("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniforMat4f("u_Transform", transform);
 
 		vertexArray->Bind();

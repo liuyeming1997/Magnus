@@ -29,8 +29,8 @@ namespace Magnus {
 		void ShutDown();
 		
 	private:
-		GraphicContext* m_Context;
 		GLFWwindow* m_Window;
+		Scope<GraphicContext> m_Context;
 		//需要发送给glfw的数据
 		struct WindowData
 		{

@@ -10,19 +10,39 @@ namespace Magnus {
 
 	}
 	void CameraControl::OnUpdate(Timestep ts) {
-		if (Input::IsKeyPressed(MG_KEY_W))
-			m_CameraPosition.y += CameraMoveSpeed * ts;
-		else if (Input::IsKeyPressed(MG_KEY_S))
-			m_CameraPosition.y -= CameraMoveSpeed * ts;
-		else if (Input::IsKeyPressed(MG_KEY_A))
-			m_CameraPosition.x -= CameraMoveSpeed * ts;
-		else if (Input::IsKeyPressed(MG_KEY_D))
-			m_CameraPosition.x += CameraMoveSpeed * ts;
+		if (Input::IsKeyPressed(MG_KEY_W)) {
+			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+		}
+		else if (Input::IsKeyPressed(MG_KEY_S)) {
+			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation))
+				* CameraMoveSpeed * ts;
+		}
+		else if (Input::IsKeyPressed(MG_KEY_A)) {
+			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+		}
+		else if (Input::IsKeyPressed(MG_KEY_D)) {
+			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) 
+				* CameraMoveSpeed * ts;
+		}
 		if (m_isRotate) {
 			if (Input::IsKeyPressed(MG_KEY_Q))
 				m_CameraRotation += CameraRotateSpeed * ts;
 			if (Input::IsKeyPressed(MG_KEY_E))
 				m_CameraRotation -= CameraRotateSpeed * ts;
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
 			m_Camera.SetRotation(m_CameraRotation);
 		}
 		m_Camera.SetPosition(m_CameraPosition);
