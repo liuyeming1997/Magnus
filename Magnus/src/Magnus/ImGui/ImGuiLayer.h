@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Magnus/Layer.h"
+#include "Magnus/Core/Layer.h"
 #include "Magnus/Events/MouseEvent.h"	
 #include "Magnus/Events/KeyEvent.h"
 #include "Magnus/Events/ApplicationEvent.h"

@@ -1,7 +1,7 @@
 #pragma once
-#include "Magnus/Core.h"
-#include "Events/Event.h"
-#include "Core/Timestep.h"
+#include "Magnus/Core/Core.h"
+#include "Magnus/Events/Event.h"
+#include "Magnus/Core/Timestep.h"
 namespace Magnus {
 	class MAGNUS_API Layer 
 	{

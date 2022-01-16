@@ -1,5 +1,5 @@
 #include "mgpch.h"
-#include "Magnus/Log.h"
+#include "Magnus/Core/Log.h"
 #include "OpenGlShader.h"
 
 #include <iostream>

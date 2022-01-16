@@ -1,7 +1,7 @@
 #include "mgpch.h"
 #include "WindowsInput.h"
 
-#include "Magnus/Application.h"
+#include "Magnus/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace Magnus {

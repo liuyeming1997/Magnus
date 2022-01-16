@@ -1,8 +1,8 @@
 #include "mgpch.h"
 #include "CameraControl.h"
-#include "Magnus/KeyCode.h"
-#include "Magnus/Input.h"
-#include "Magnus/Core.h"
+#include "Magnus/Core/KeyCode.h"
+#include "Magnus/Core/Input.h"
+#include "Magnus/Core/Core.h"
 namespace Magnus {
 	CameraControl::CameraControl(float _AspectRatio, bool _isRotate):m_AspectRatio(_AspectRatio), 
 		m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, 

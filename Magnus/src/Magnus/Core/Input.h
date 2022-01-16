@@ -1,6 +1,6 @@
 #pragma once
 #include "mgpch.h"
-#include "Magnus/Core.h"
+#include "Magnus/Core/Core.h"
 
 
 namespace Magnus {

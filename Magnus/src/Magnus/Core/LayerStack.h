@@ -1,5 +1,5 @@
 #pragma once
-#include "Magnus/Core.h"
+#include "Magnus/Core/Core.h"
 #include "Layer.h"
 namespace Magnus {
 	class LayerStack

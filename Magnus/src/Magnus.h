@@ -1,14 +1,14 @@
 #pragma once
 
 //For use by Magnus application
-#include "Magnus/Application.h"
-#include "Magnus/Log.h"
+#include "Magnus/Core/Application.h"
+#include "Magnus/Core/Log.h"
 #include "Magnus/ImGui/ImGuiLayer.h"
-#include "Magnus/Input.h"
-#include "Magnus/KeyCode.h"
-#include "Magnus/MouseButtonCode.h"
+#include "Magnus/Core/Input.h"
+#include "Magnus/Core/KeyCode.h"
+#include "Magnus/Core/MouseButtonCode.h"
 //-----Entry Point------------------
-#include "Magnus/EntryPoint.h"
+#include "Magnus/Core/EntryPoint.h"
 //----------------------------------
 
 //---------Render-------------------
@@ -21,4 +21,4 @@
 
 //---------Core?--------------------
 #include "Magnus/Core/Timestep.h"
-#include "Magnus/Core.h"
+#include "Magnus/Core/Core.h"

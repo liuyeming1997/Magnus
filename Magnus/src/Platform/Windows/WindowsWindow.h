@@ -1,6 +1,6 @@
 #pragma once
-#include "Magnus/Core.h"
-#include "Magnus/Window.h"
+#include "Magnus/Core/Core.h"
+#include "Magnus/Core/Window.h"
 #include "Magnus/Render/GraphicContext.h"
 #include <GLFW/glfw3.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Magnus/Input.h"
+#include "Magnus/Core/Input.h"
 
 namespace Magnus {
 

@@ -2,15 +2,15 @@
 #include "ImGuiLayer.h"
 
 #include "imgui.h"
-#include "Magnus/KeyCode.h"
-#include "Magnus/MouseButtonCode.h"
+#include "Magnus/Core/KeyCode.h"
+#include "Magnus/Core/MouseButtonCode.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
-#include "Magnus/Application.h"
+#include "Magnus/Core/Application.h"
 
 namespace Magnus {
 #define BIND_IMGUIEVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
