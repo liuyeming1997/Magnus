@@ -7,8 +7,6 @@
 #include "Magnus/Core/Input.h"
 #include "Magnus/Core/KeyCode.h"
 #include "Magnus/Core/MouseButtonCode.h"
-//-----Entry Point------------------
-#include "Magnus/Core/EntryPoint.h"
 //----------------------------------
 
 //---------Render-------------------
