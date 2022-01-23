@@ -15,12 +15,8 @@ public:
 	void OnEvent(Magnus::Event & e) override;
 private:
 	Magnus::Ref<Magnus::VertexArray> m_SquareVA;
-
 	Magnus::Ref<Magnus::Shader> m_FlatColorShader;
-
 	Magnus::CameraControl m_CameraControl;
-
-	glm::vec3 m_SquarePosition;
 	float SquareMoveSpeed = 2.0f;
 
 

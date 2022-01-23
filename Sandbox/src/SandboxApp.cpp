@@ -12,7 +12,7 @@ public:
 		m_SquarePosition(0.0f), m_ShaderLibrary()
 	{
 
-		m_VertexArray.reset(Magnus::VertexArray::Create());
+		m_VertexArray = Magnus::VertexArray::Create();
 		m_VertexArray->Bind();
 
 		float vertices[3 * 7] = {
@@ -43,7 +43,7 @@ public:
 		auto& m_Shader = m_ShaderLibrary.Load("shader", "assert/shader/shader.vert",
 			"assert/shader/shader.frag");
 
-		m_SquareVA.reset(Magnus::VertexArray::Create());
+		m_SquareVA = Magnus::VertexArray::Create();
 		m_SquareVA->Bind();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -53,7 +53,7 @@ public:
 		};
 
 		Magnus::Ref<Magnus::VertexBuffer> squareVB;
-		squareVB.reset(Magnus::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB = Magnus::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVB->SetLayout({
 			{ Magnus::ShaderDataType::Float3, "a_Position" },
 			{ Magnus::ShaderDataType::Float2, "a_TexCoord" }
@@ -62,7 +62,7 @@ public:
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 		Magnus::Ref<Magnus::IndexBuffer> squareIB;
-		squareIB.reset(Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareIB = Magnus::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		auto Square_Shader = m_ShaderLibrary.Load("assert/shader/Texture.glsl");

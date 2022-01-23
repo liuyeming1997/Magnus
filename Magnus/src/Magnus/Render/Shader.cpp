@@ -9,7 +9,7 @@ namespace Magnus {
 		switch (Render::GetAPI())
 		{
 		case RenderAPI::API::NONE:    MG_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-		case RenderAPI::API::OPENGL:  return std::make_shared<OpenGLShader>(filepath);
+		case RenderAPI::API::OPENGL:  return CreateRef<OpenGLShader>(filepath);
 		}
 		MG_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
@@ -18,7 +18,7 @@ namespace Magnus {
 		switch (Render::GetAPI())
 		{
 			case RenderAPI::API::NONE:    MG_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-			case RenderAPI::API::OPENGL:  return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			case RenderAPI::API::OPENGL:  return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 		MG_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;

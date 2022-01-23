@@ -60,7 +60,7 @@ namespace Magnus {
 	class BufferLayout
 	{
 	public:
-		BufferLayout() {}
+		BufferLayout() = default;
 		BufferLayout(const std::initializer_list< BufferElement>& _Elements)
 			:m_Elements(_Elements) {
 			uint32_t offset = 0;
@@ -95,7 +95,7 @@ namespace Magnus {
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
 
-		static VertexBuffer* Create(float* data, unsigned int size);
+		static Ref<VertexBuffer> Create(float* data, unsigned int size);
 	};
 	class IndexBuffer
 	{
@@ -107,7 +107,7 @@ namespace Magnus {
 		virtual void Bind()const = 0;
 		virtual void UnBind()const = 0;
 		virtual inline unsigned int GetCount() const = 0;
-		static IndexBuffer* Create(unsigned int* data, unsigned int count);
+		static  Ref <IndexBuffer> Create(unsigned int* data, unsigned int count);
 		
 	};
 

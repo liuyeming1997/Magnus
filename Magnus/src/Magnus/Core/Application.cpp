@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Magnus/Render/Render.h"
+#include "Magnus/Render/Render2D.h"
 #include "Magnus/Render/RenderCommand.h"
 #include "Magnus/Render/Camera.h"
 #include "Magnus/Core/Timestep.h"
@@ -21,6 +22,7 @@ namespace Magnus {
 		PushOverlay(m_ImGuiLayer);
 
 		Render::Init();
+		Render2D::Init();
 
 		
 	}
